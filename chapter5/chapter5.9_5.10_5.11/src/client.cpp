@@ -9,6 +9,7 @@
 #include <assert.h>
 #include <ifaddrs.h>
 using namespace std;
+#define BUFFER_SIZE 1 << 9
 
 int main(int argc, char **argv)
 {
@@ -39,17 +40,20 @@ int main(int argc, char **argv)
     // 创建一个新的ipv4套接字，使用TCP协议(SOCK_STREAM)，和默认协议族(ipv4)，返回fd
     int sockfd = socket(PF_INET, SOCK_STREAM, 0);
     assert(sockfd >= 0);
-    if (connect(sockfd, (struct sockaddr *)&server_address, 
-                sizeof(server_address)) < 0) {
-                    std::cout << "connection failed\n" << std::endl;
-                }
-    else{
-        const char* oob_data = "abdefg";
-        const char* normal_data = "123456";
-        send(sockfd, normal_data, strlen(normal_data), 0);
-        send(sockfd, normal_data, strlen(normal_data), MSG_MORE); 
-        send(sockfd, oob_data, strlen(oob_data), MSG_OOB); // 发送带外数据
-        send(sockfd, normal_data, strlen(normal_data), 0);
+
+    // 先设置TCP发送缓冲区的大小, 然后立即读取它
+    int sendbuf = atoi(argv[3]);
+    int len = sizeof(sendbuf);
+    setsockopt(sockfd, SOL_SOCKET, SO_SNDBUF, &sendbuf, sizeof(sendbuf));
+    getsockopt(sockfd, SOL_SOCKET, SO_SNDBUF, &sendbuf, (socklen_t *)&len);
+    cout << "the tcp send buffer size after setting is " << sendbuf << endl;
+
+    if (connect(sockfd, (struct sockaddr *)&server_address,
+                sizeof(server_address)) != -1)
+    {
+        char buffer[BUFFER_SIZE];
+        memset(buffer, 'a', BUFFER_SIZE);
+        send(sockfd, buffer, BUFFER_SIZE, 0);
     }
     close(sockfd);
     return 0;

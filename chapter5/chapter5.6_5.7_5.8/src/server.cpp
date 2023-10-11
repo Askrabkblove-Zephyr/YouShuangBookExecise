@@ -71,6 +71,7 @@ int main(int argc, char **argv)
         memset(buff, '\0', BUF_SIZE);
         ret = recv(connfd, buff, BUF_SIZE - 1, 0);
         std::cout << "got " << ret << "bytes of normal data : " << buff << std::endl;
+        close(connfd);
     }
     close(sockfd);
     return 0;
