@@ -15,19 +15,19 @@
 
 #define BUFFER_SIZE 1 << 10
 // 定义两种HTTP状态码和状态信息
-static const char* status_line[2] = { "200 OK", "500 Internal server error" };
+static const char *status_line[2] = {"200 OK", "500 Internal server error"};
 
-int main(int argc, char* argv[])
+int main(int argc, char *argv[])
 {
     if (argc <= 3)
     {
-        std::cerr << "Usage: " << basename(argv[0]) << " ip_address port_number" << std::endl; // 使用basename函数提取路径中的文件名
+        std::cerr << "Usage: " << basename(argv[0]) << " ip_address port_number file_path" << std::endl; // 使用basename函数提取路径中的文件名
         return 1;
     }
 
-    const char* ip = argv[1];        // 从命令行参数获取IP地址
+    const char *ip = argv[1];        // 从命令行参数获取IP地址
     int port = atoi(argv[2]);        // 将端口号从字符串转换为整数
-    const char* file_name = argv[3]; // 将目标文件作为程序的第三个参数传入
+    const char *file_name = argv[3]; // 将目标文件作为程序的第三个参数传入
 
     struct sockaddr_in address;                // 定义IPv4地址结构体
     bzero(&address, sizeof(address));          // 清空结构体内存空间
@@ -38,7 +38,7 @@ int main(int argc, char* argv[])
     int sock = socket(PF_INET, SOCK_STREAM, 0); // 创建TCP套接字
     assert(sock >= 0);                          // 确保套接字创建成功
 
-    int ret = bind(sock, (struct sockaddr*)&address, sizeof(address)); // 将套接字绑定到指定的IP地址和端口上
+    int ret = bind(sock, (struct sockaddr *)&address, sizeof(address)); // 将套接字绑定到指定的IP地址和端口上
     assert(ret != -1);                                                  // 确保绑定成功
 
     ret = listen(sock, 5); // 开始监听客户端连接请求，最多允许5个连接请求同时等待处理
@@ -46,7 +46,7 @@ int main(int argc, char* argv[])
 
     struct sockaddr_in client;                                                 // 定义客户端地址结构体
     socklen_t client_addrlength = sizeof(client);                              // 客户端地址结构体的长度
-    int connfd = accept(sock, (struct sockaddr*)&client, &client_addrlength); // 接受客户端的连接请求，返回新的套接字描述符
+    int connfd = accept(sock, (struct sockaddr *)&client, &client_addrlength); // 接受客户端的连接请求，返回新的套接字描述符
     if (connfd < 0)
     {
         std::cout << "errno is " << errno << std::endl; // 输出错误信息
@@ -57,7 +57,7 @@ int main(int argc, char* argv[])
         char header_buf[BUFFER_SIZE];
         memset(header_buf, '\0', BUFFER_SIZE);
         // 用于存放目标文件内容的应用程序缓存
-        char* file_buf;
+        char *file_buf;
         // 用于获取目标文件的属性, 比如是否为目录，文件大小等
         struct stat file_stat;
         // 记录目标文件是否为有效文件
@@ -100,10 +100,10 @@ int main(int argc, char* argv[])
             ret = snprintf(header_buf + len, BUFFER_SIZE - 1 - len, "Content-Length: %d\r\n", file_stat.st_size);
             len += ret;
             ret = snprintf(header_buf + len, BUFFER_SIZE - 1 - len, "%s", "\r\n");
-
+            
             // iovec.base : 指向内存区域的指针
             // iovec.len : 内存区域的长度
-            struct iovec iv[2];
+            struct iovec iv[2]; 
             iv[0].iov_base = header_buf;
             iv[0].iov_len = strlen(header_buf);
             iv[1].iov_base = file_buf;

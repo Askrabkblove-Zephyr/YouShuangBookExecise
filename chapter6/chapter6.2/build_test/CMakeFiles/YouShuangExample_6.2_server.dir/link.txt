@@ -1,0 +1,1 @@
+/usr/bin/c++ -O3 -DNDEBUG CMakeFiles/YouShuangExample_6.2_server.dir/src/server.cpp.o -o YouShuangExample_6.2_server 

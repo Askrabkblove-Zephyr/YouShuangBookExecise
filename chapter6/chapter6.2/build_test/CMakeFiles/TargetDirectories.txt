@@ -1,0 +1,4 @@
+/home/ubuntu/YouShuangExample/chapter6/chapter6.2/build_test/CMakeFiles/YouShuangExample_6.2_server.dir
+/home/ubuntu/YouShuangExample/chapter6/chapter6.2/build_test/CMakeFiles/YouShuangExample_6.2_client.dir
+/home/ubuntu/YouShuangExample/chapter6/chapter6.2/build_test/CMakeFiles/edit_cache.dir
+/home/ubuntu/YouShuangExample/chapter6/chapter6.2/build_test/CMakeFiles/rebuild_cache.dir
