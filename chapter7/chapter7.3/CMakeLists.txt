@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.5) # 设置CMAKE最小版本
-project(YouShuangExample_7.2)
+project(YouShuangExample_7.3)
 
 set(CMAKE_STANDARD_REQUIRED ON) # C++标准开启
 set(CMAKE_CXX_STANDARD 11) # 设置C++的标准为C++11

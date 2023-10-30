@@ -29,7 +29,5 @@ int main(int argc, char ** argv) {
     std::cout << "uid = " << uid 
               << " gid = " << gp_id 
               << std::endl;
-    while(1);
-    
     return 0;
 }
